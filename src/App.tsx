@@ -5,6 +5,7 @@ import {
   Navigate,
   RouterProvider,
 } from "react-router-dom";
+import SearchPage from "./features/SearchPage/SearchPage";
 
 function App() {
   let theme = localStorage.getItem("theme");
@@ -26,6 +27,10 @@ function App() {
         {
           path: "/nadry",
           element: <Home />,
+        },
+        {
+          path: "/search",
+          element: <SearchPage />,
         },
       ],
     },

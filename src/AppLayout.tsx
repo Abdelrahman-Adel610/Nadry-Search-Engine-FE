@@ -6,8 +6,9 @@ export default function AppLayout() {
   const navigate = useNavigate();
   const dark = location.hash === "#dark";
   function toogleTheme() {
-    if (dark) navigate("#light");
-    else navigate("#dark");
+    const searchParams = new URLSearchParams(location.search);
+    const newHash = dark ? "#light" : "#dark";
+    navigate(`${location.pathname}?${searchParams.toString()}${newHash}`);
   }
   return (
     <div

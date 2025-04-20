@@ -1,12 +1,24 @@
 import Logo from "../../ui/Logo";
 import Button from "../../ui/Button";
 import SerchBar from "../../ui/SerchBar";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Search({ dark }: { dark: boolean }) {
   const [query, setQuery] = useState("");
+  const navigate = useNavigate();
+  function submitHandler(e: FormEvent) {
+    e.preventDefault();
+    const searchParams = new URLSearchParams(window.location.search);
+    searchParams.set("query", query);
+    const newHash = dark ? "#dark" : "#light";
+    navigate(`/search?${searchParams.toString()}${newHash}`);
+  }
   return (
-    <form className="w-full flex flex-col items-center gap-6">
+    <form
+      className="w-full flex flex-col items-center gap-6"
+      onSubmit={submitHandler}
+    >
       <Logo dark={dark} />
       <div className="relative flex justify-center w-full">
         <SerchBar
@@ -30,9 +42,7 @@ export default function Search({ dark }: { dark: boolean }) {
           Clear
         </Button>
         <Button
-          onClick={() => {
-            alert(query);
-          }}
+          onClick={() => {}}
           darkTheme={dark}
           isShown={query.trim() != ""}
           key={"Search_Btn"}
