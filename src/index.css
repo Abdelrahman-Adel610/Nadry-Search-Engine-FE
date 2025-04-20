@@ -1,2 +1,41 @@
 @import "tailwindcss";
 
+:root {
+  --nadry-bg-light: #fff4e3;
+  --nadry-bg-light-accent: #ffe0b2;
+  --nadry-bg-dark: #2d1400;
+  --nadry-bg-dark-accent: #3d1a00;
+  --nadry-orange: #ff9800;
+  --nadry-orange-light: #ffd699;
+  --nadry-orange-lighter: #ffb74d;
+  --nadry-text-light: #3d1a00;
+  --nadry-text-dark: #fff4e3;
+}
+
+.dark {
+  --nadry-bg: var(--nadry-bg-dark);
+  --nadry-bg-accent: var(--nadry-bg-dark-accent);
+  --nadry-text: var(--nadry-text-dark);
+  --nadry-btn-bg: var(--nadry-bg-dark-accent);
+  --nadry-btn-text: var(--nadry-orange-lighter);
+}
+
+:root {
+  --nadry-bg: var(--nadry-bg-light);
+  --nadry-bg-accent: var(--nadry-bg-light-accent);
+  --nadry-text: var(--nadry-text-light);
+  --nadry-btn-bg: var(--nadry-bg-light);
+  --nadry-btn-text: var(--nadry-orange);
+}
+
+body {
+  font-family: 'Segoe UI', 'Inter', 'Roboto', 'Arial', sans-serif;
+}
+
+.animate-fade-in {
+  animation: fadeIn 1s;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95);}
+  to { opacity: 1; transform: scale(1);}
+}
