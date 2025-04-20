@@ -3,12 +3,15 @@ import { useState } from "react";
 export default function SerchBar({
   isDarkMode,
   foncusOnMount,
+  query,
+  setQuery,
 }: {
   isDarkMode: boolean;
   foncusOnMount: boolean;
+  query: string;
+  setQuery: (new_query: string) => void;
 }) {
   const [inputFocused, setInputFocused] = useState(foncusOnMount);
-  const [query, setQuery] = useState("");
 
   return (
     <div>

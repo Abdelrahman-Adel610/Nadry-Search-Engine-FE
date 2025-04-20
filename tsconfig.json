@@ -3,5 +3,13 @@
   "references": [
     { "path": "./tsconfig.app.json" },
     { "path": "./tsconfig.node.json" }
-  ]
+  ],
+  "compilerOptions": {
+    "baseUrl": "./", // Ensure this is set
+    "paths": {
+      "@/*": ["src/*"] // Ensure this maps '@' to the 'src' directory
+    },
+    "strict": true, // Enable strict type checking
+    "forceConsistentCasingInFileNames": true // Enforce consistent file name casing
+  }
 }
