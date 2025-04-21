@@ -7,7 +7,7 @@
   "compilerOptions": {
     "baseUrl": "./", // Ensure this is set
     "paths": {
-      "@/*": ["src/*"] // Ensure this maps '@' to the 'src' directory
+      "@/*": ["src/*"]
     },
     "strict": true, // Enable strict type checking
     "forceConsistentCasingInFileNames": true // Enforce consistent file name casing
