@@ -1,5 +1,6 @@
 import { useState } from "react";
-
+import Recommendations from "./Recommendations";
+import { suggestions } from "@/data/data.ts";
 export default function SerchBar({
   isDarkMode,
   foncusOnMount,
@@ -13,8 +14,13 @@ export default function SerchBar({
 }) {
   const [inputFocused, setInputFocused] = useState(foncusOnMount);
 
+  // Demo suggestions, replace with real data as needed
+
+  // Filter suggestions based on query
+  const filteredSuggestions = query.trim().length > 0 ? suggestions : [];
+
   return (
-    <div>
+    <div className="relative w-full flex flex-col items-center">
       <input
         type="text"
         value={query}
@@ -39,6 +45,13 @@ export default function SerchBar({
         autoComplete="off"
         onFocus={() => setInputFocused(true)}
         onBlur={() => setInputFocused(false)}
+      />
+
+      <Recommendations
+        isDarkMode={isDarkMode}
+        isVisible={inputFocused && filteredSuggestions.length > 0}
+        moveDownHandler={(s: string) => setQuery(s)}
+        filteredSuggestions={filteredSuggestions}
       />
     </div>
   );
