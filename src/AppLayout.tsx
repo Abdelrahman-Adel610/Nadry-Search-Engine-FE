@@ -1,27 +1,18 @@
-import Button from "./ui/Button";
-import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Outlet } from "react-router-dom";
+import { useTheme } from "./context/ThemeContext";
+import ThemeSwitcher from "./ui/ThemeSwitcher";
 
 export default function AppLayout() {
-  const location = useLocation();
-  const navigate = useNavigate();
-  const dark = location.hash === "#dark";
-  function toogleTheme() {
-    const searchParams = new URLSearchParams(location.search);
-    const newHash = dark ? "#light" : "#dark";
-    navigate(`${location.pathname}?${searchParams.toString()}${newHash}`);
-  }
+  const { isDark, themeColor } = useTheme();
+
   return (
     <div
-      className={`min-h-screen flex flex-col items-center justify-center transition-colors ${
-        dark ? "dark" : ""
+      className={`min-h-screen flex flex-col items-center justify-center transition-colors duration-300 ${
+        isDark ? "bg-[var(--nadry-bg-dark)]" : "bg-[var(--nadry-bg-light)]"
       } text-[var(--nadry-text)]`}
-      style={{
-        background: dark ? "var(--nadry-bg-dark)" : "var(--nadry-bg-light)",
-      }}
+      data-theme={themeColor}
     >
-      <Button onClick={toogleTheme} style="theme" darkTheme={dark}>
-        <span className="text-xl">{dark ? "🌙" : "☀️"}</span>
-      </Button>
+      <ThemeSwitcher />
       <Outlet />
     </div>
   );

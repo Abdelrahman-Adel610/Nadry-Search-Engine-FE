@@ -1,10 +1,14 @@
-import { useLocation, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
+import { useTheme } from "../../context/ThemeContext";
+import Label from "../../ui/Label";
+import { getTextStyle } from "../../utils/styleUtils";
+
 const searchTime = (Math.random() * 0.2 + 0.05).toFixed(3);
 
 export default function QueryTags({ resultCount }: { resultCount: number }) {
-  const [searchPargams] = useSearchParams();
-  const dark = useLocation().hash === "#dark";
-  const searchQuery = searchPargams.get("query");
+  const [searchParams] = useSearchParams();
+  const { isDark } = useTheme();
+  const searchQuery = searchParams.get("query");
   const tags = searchQuery
     ? Array.from(
         new Set(
@@ -16,33 +20,27 @@ export default function QueryTags({ resultCount }: { resultCount: number }) {
       )
     : [];
   return (
-    <div className="flex flex-wrap items-center gap-4 mb-2">
-      <div className="text-gray-500 text-base">
+    <div>
+      <div className={`mb-3 text-sm ${getTextStyle(isDark, true)}`}>
         {resultCount > 0 ? (
-          <>
-            <span>
-              Found about <b>{resultCount.toLocaleString()}</b> results in{" "}
-              <b>{searchTime}s</b>
-            </span>
-          </>
+          <span>
+            About <strong>{resultCount.toLocaleString()}</strong> results (
+            {searchTime} seconds)
+          </span>
         ) : (
-          <span>No results found.</span>
+          <span>No results found</span>
         )}
       </div>
-      <div className="flex gap-2 flex-wrap">
-        {tags.map((tag) => (
-          <span
-            key={tag}
-            className={
-              dark
-                ? "bg-[var(--nadry-bg-dark-accent)] text-[var(--nadry-orange)] px-3 py-1 rounded-full text-sm font-semibold"
-                : "bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-semibold"
-            }
-          >
-            {tag}
-          </span>
-        ))}
-      </div>
+
+      {tags.length > 0 && (
+        <div className="flex flex-wrap gap-2 mb-5">
+          {tags.map((tag) => (
+            <Label key={tag} variant="tag" size="medium">
+              {tag}
+            </Label>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

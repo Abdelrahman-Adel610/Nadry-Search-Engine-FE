@@ -1,47 +1,296 @@
 @import "tailwindcss";
 
 :root {
-  --nadry-bg-light: #fff4e3;
-  --nadry-bg-light-accent: #ffe0b2;
-  --nadry-bg-dark: #2d1400;
-  --nadry-bg-dark-accent: #3d1a00;
-  --nadry-orange: #ff9800;
-  --nadry-orange-light: #ffd699;
-  --nadry-orange-lighter: #ffb74d;
+  /* Base colors for all themes */
+  --nadry-bg-light: #f5f9fa;
+  --nadry-bg-light-accent: #e3f0f5;
+  --nadry-bg-dark: #1a2b38;
+  --nadry-bg-dark-accent: #253545;
   --nadry-text-light: #2a3c4b;
-  --nadry-text-dark: #faffff;
-  --nadry-border-light: #ff9800;
-  --nadry-border-dark: #e6f0fa;
-  --nadry-placeholder-light: #2a3c4b;
-  --nadry-placeholder-dark: #faffff;
-}
-
-.dark {
-  --nadry-bg: var(--nadry-bg-dark);
-  --nadry-bg-accent: var(--nadry-bg-dark-accent);
-  --nadry-text: var(--nadry-text-dark);
-  --nadry-btn-bg: var(--nadry-bg-dark-accent);
-  --nadry-btn-text: var(--nadry-orange-lighter);
-  --nadry-border: var(--nadry-border-dark);
-  --nadry-placeholder: var(--nadry-placeholder-dark);
-}
-
-:root {
+  --nadry-text-dark: #f2f8ff;
+  --nadry-placeholder-light: #7c8c99;
+  --nadry-placeholder-dark: #afc2d7;
   --nadry-bg: var(--nadry-bg-light);
   --nadry-bg-accent: var(--nadry-bg-light-accent);
   --nadry-text: var(--nadry-text-light);
-  --nadry-btn-bg: var(--nadry-bg-light);
-  --nadry-btn-text: var(--nadry-orange);
-  --nadry-border: var(--nadry-border-light);
   --nadry-placeholder: var(--nadry-placeholder-light);
+
+  /* Blue theme colors */
+  --nadry-blue: #2a7fff;
+  --nadry-blue-light: #abd2ff;
+  --nadry-blue-lighter: #d6e9ff;
+  --nadry-blue-bg-light: #f5f9fa;
+  --nadry-blue-bg-dark: #1a2b38;
+  --nadry-blue-bg-light-accent: #e3f0f5;
+  --nadry-blue-bg-dark-accent: #253545;
+
+  /* Result item background colors - Blue theme */
+  --nadry-blue-result-bg: #edf6ff;
+  --nadry-blue-result-bg-border: #c0dbff;
+  --nadry-blue-result-sponsored-bg: linear-gradient(to right, #e1f0ff, #d6e9ff);
+  --nadry-blue-result-sponsored-border: #a8caff;
+  --nadry-blue-featured-bg: linear-gradient(to right, #daeaff, #e8f4ff);
+  --nadry-blue-result-icon-bg: #e1efff;
+  --nadry-blue-result-hover-shadow: rgba(74, 144, 255, 0.2);
+
+  /* Orange theme colors */
+  --nadry-orange: #ff9800;
+  --nadry-orange-light: #ffb74d;
+  --nadry-orange-lighter: #ffe0b2;
+  --nadry-orange-bg-light: #fff9f0;
+  --nadry-orange-bg-dark: #2d2113;
+  --nadry-orange-bg-light-accent: #fff0d9;
+  --nadry-orange-bg-dark-accent: #3d2c19;
+
+  /* Result item background colors - Orange theme */
+  --nadry-orange-result-bg: #fff5e8;
+  --nadry-orange-result-bg-border: #ffd4a0;
+  --nadry-orange-result-sponsored-bg: linear-gradient(to right, #ffeed4, #fff0d9);
+  --nadry-orange-result-sponsored-border: #ffca85;
+  --nadry-orange-featured-bg: linear-gradient(to right, #ffeed4, #fff5e8);
+  --nadry-orange-result-icon-bg: #fff0d9;
+  --nadry-orange-result-hover-shadow: rgba(255, 152, 0, 0.2);
+
+  /* Default theme colors (gray) */
+  --nadry-default: #5a6a7a;
+  --nadry-default-light: #8d9cac;
+  --nadry-default-lighter: #d1d8e0;
+  --nadry-default-bg-light: #f7f7f7;
+  --nadry-default-bg-dark: #222222;
+  --nadry-default-bg-light-accent: #e8e8e8;
+  --nadry-default-bg-dark-accent: #333333;
+
+  /* Result item background colors - Default theme */
+  --nadry-default-result-bg: #f0f4f8;
+  --nadry-default-result-bg-border: #d0d8e0;
+  --nadry-default-result-sponsored-bg: linear-gradient(to right, #e8ecf2, #eef1f5);
+  --nadry-default-result-sponsored-border: #bbc7d5;
+  --nadry-default-featured-bg: linear-gradient(to right, #e8ecf2, #f0f4f8);
+  --nadry-default-result-icon-bg: #e8ecf2;
+  --nadry-default-result-hover-shadow: rgba(90, 106, 122, 0.2);
+
+  /* Accent color for highlights */
+  --nadry-accent: #2cc9d6;
+
+  /* Set initial theme to blue */
+  --nadry-primary: var(--nadry-blue);
+  --nadry-primary-light: var(--nadry-blue-light);
+  --nadry-primary-lighter: var(--nadry-blue-lighter);
+  --nadry-border-light: var(--nadry-blue);
+  --nadry-border-dark: var(--nadry-blue-light);
+  --nadry-bg-light: var(--nadry-blue-bg-light);
+  --nadry-bg-dark: var(--nadry-blue-bg-dark);
+  --nadry-bg-light-accent: var(--nadry-blue-bg-light-accent);
+  --nadry-bg-dark-accent: var(--nadry-blue-bg-dark-accent);
+
+  /* Default result item backgrounds */
+  --nadry-result-bg: var(--nadry-blue-result-bg);
+  --nadry-result-bg-border: var(--nadry-blue-result-bg-border);
+  --nadry-result-sponsored-bg: var(--nadry-blue-result-sponsored-bg);
+  --nadry-result-sponsored-border: var(--nadry-blue-result-sponsored-border);
+  --nadry-featured-bg: var(--nadry-blue-featured-bg);
+  --nadry-result-icon-bg: var(--nadry-blue-result-icon-bg);
+  --nadry-result-hover-shadow: var(--nadry-blue-result-hover-shadow);
+}
+
+/* 3. Theme-specific variable overrides */
+[data-theme="blue"] {
+  --nadry-primary: var(--nadry-blue);
+  --nadry-primary-light: var(--nadry-blue-light);
+  --nadry-primary-lighter: var(--nadry-blue-lighter);
+  --nadry-border-light: var(--nadry-blue);
+  --nadry-border-dark: var(--nadry-blue-light);
+  --nadry-bg-light: var(--nadry-blue-bg-light);
+  --nadry-bg-dark: var(--nadry-blue-bg-dark);
+  --nadry-bg-light-accent: var(--nadry-blue-bg-light-accent);
+  --nadry-bg-dark-accent: var(--nadry-blue-bg-dark-accent);
+  --nadry-result-bg: var(--nadry-blue-result-bg);
+  --nadry-result-bg-border: var(--nadry-blue-result-bg-border);
+  --nadry-result-sponsored-bg: var(--nadry-blue-result-sponsored-bg);
+  --nadry-result-sponsored-border: var(--nadry-blue-result-sponsored-border);
+  --nadry-featured-bg: var(--nadry-blue-featured-bg);
+  --nadry-result-icon-bg: var(--nadry-blue-result-icon-bg);
+  --nadry-result-hover-shadow: var(--nadry-blue-result-hover-shadow);
+}
+
+[data-theme="orange"] {
+  --nadry-primary: var(--nadry-orange);
+  --nadry-primary-light: var(--nadry-orange-light);
+  --nadry-primary-lighter: var(--nadry-orange-lighter);
+  --nadry-border-light: var(--nadry-orange);
+  --nadry-border-dark: var(--nadry-orange-light);
+  --nadry-bg-light: var(--nadry-orange-bg-light);
+  --nadry-bg-dark: var(--nadry-orange-bg-dark);
+  --nadry-bg-light-accent: var(--nadry-orange-bg-light-accent);
+  --nadry-bg-dark-accent: var(--nadry-orange-bg-dark-accent);
+  --nadry-result-bg: var(--nadry-orange-result-bg);
+  --nadry-result-bg-border: var(--nadry-orange-result-bg-border);
+  --nadry-result-sponsored-bg: var(--nadry-orange-result-sponsored-bg);
+  --nadry-result-sponsored-border: var(--nadry-orange-result-sponsored-border);
+  --nadry-featured-bg: var(--nadry-orange-featured-bg);
+  --nadry-result-icon-bg: var(--nadry-orange-result-icon-bg);
+  --nadry-result-hover-shadow: var(--nadry-orange-result-hover-shadow);
+}
+
+[data-theme="default"] {
+  --nadry-primary: var(--nadry-default);
+  --nadry-primary-light: var(--nadry-default-light);
+  --nadry-primary-lighter: var(--nadry-default-lighter);
+  --nadry-border-light: var(--nadry-default);
+  --nadry-border-dark: var(--nadry-default-light);
+  --nadry-bg-light: var(--nadry-default-bg-light);
+  --nadry-bg-dark: var(--nadry-default-bg-dark);
+  --nadry-bg-light-accent: var(--nadry-default-bg-light-accent);
+  --nadry-bg-dark-accent: var(--nadry-default-bg-dark-accent);
+  --nadry-result-bg: var(--nadry-default-result-bg);
+  --nadry-result-bg-border: var(--nadry-default-result-bg-border);
+  --nadry-result-sponsored-bg: var(--nadry-default-result-sponsored-bg);
+  --nadry-result-sponsored-border: var(--nadry-default-result-sponsored-border);
+  --nadry-featured-bg: var(--nadry-default-featured-bg);
+  --nadry-result-icon-bg: var(--nadry-default-result-icon-bg);
+  --nadry-result-hover-shadow: var(--nadry-default-result-hover-shadow);
 }
 
 body {
   font-family: 'Segoe UI', 'Inter', 'Roboto', 'Arial', sans-serif;
 }
 
+.line-clamp-1 {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Hide scrollbar utility */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  overflow-x: auto;
+}
+
+/* 6. Animation and effect classes */
 .animate-fade-in {
   animation: fadeIn 1s;
+}
+
+.logo-pulse {
+  animation: logoPulse 2s infinite;
+}
+
+.logo-shine {
+  position: relative;
+  overflow: hidden;
+}
+
+.logo-shine::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(to right,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.3) 50%,
+      rgba(255, 255, 255, 0) 100%);
+  transform: rotate(30deg);
+  animation: shine 3s infinite;
+  pointer-events: none;
+}
+
+@media (max-width: 640px) {
+  body {
+    font-size: 0.9rem;
+  }
+
+  h1,
+  h2,
+  h3,
+  p,
+  a,
+  span,
+  div {
+    max-width: 100%;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    hyphens: auto;
+  }
+
+  button,
+  .button {
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+
+  .overflow-x-hidden-important {
+    overflow-x: hidden !important;
+  }
+
+  .search-header-flex {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .container {
+    width: 100%;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+
+  body,
+  html {
+    max-width: 100%;
+    overflow-x: hidden;
+    width: 100%;
+    position: relative;
+  }
+
+  .micro-screen-fix {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .micro-text {
+    font-size: 0.7rem;
+  }
+
+  .micro-padding {
+    padding: 0.25rem !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .desktop-container-spacing {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
 }
 
 @keyframes fadeIn {
@@ -53,5 +302,33 @@ body {
   to {
     opacity: 1;
     transform: scale(1);
+  }
+}
+
+@keyframes logoPulse {
+  0% {
+    filter: brightness(1);
+    transform: scale(1);
+  }
+
+  50% {
+    filter: brightness(1.1);
+    transform: scale(1.03);
+  }
+
+  100% {
+    filter: brightness(1);
+    transform: scale(1);
+  }
+}
+
+@keyframes shine {
+  0% {
+    transform: translateX(-100%) rotate(30deg);
+  }
+
+  20%,
+  100% {
+    transform: translateX(100%) rotate(30deg);
   }
 }

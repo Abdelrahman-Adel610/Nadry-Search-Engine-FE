@@ -1,40 +1,41 @@
 import Logo from "../../ui/Logo";
 import Button from "../../ui/Button";
-import SerchBar from "../../ui/SerchBar";
+import SearchBar from "../../ui/SearchBar";
 import { FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function Search({ dark }: { dark: boolean }) {
+export default function Search() {
   const [query, setQuery] = useState("");
   const navigate = useNavigate();
+
   function submitHandler(e: FormEvent) {
     e.preventDefault();
-    const searchParams = new URLSearchParams(window.location.search);
+    if (!query.trim()) return;
+
+    const searchParams = new URLSearchParams();
     searchParams.set("query", query);
-    const newHash = dark ? "#dark" : "#light";
-    navigate(`/search?${searchParams.toString()}${newHash}`);
+    navigate(`/search?${searchParams.toString()}`);
   }
+
   return (
     <form
-      className="w-full flex flex-col items-center gap-6"
+      className="w-full flex flex-col items-center gap-4 sm:gap-6"
       onSubmit={submitHandler}
     >
-      <Logo dark={dark} />
-      <div className="relative flex justify-center w-full">
-        <SerchBar
-          foncusOnMount={true}
-          isDarkMode={dark}
-          query={query}
-          setQuery={setQuery}
-        />
+      <div className="mb-1 sm:mb-2">
+        <Logo size="large" withTagline={true} tag="Search smarter" />
       </div>
-      <div className="flex gap-2">
+
+      <div className="relative flex justify-center w-full max-w-[36rem]">
+        <SearchBar foncusOnMount={true} query={query} setQuery={setQuery} />
+      </div>
+
+      <div className="flex gap-2 z-10 mt-2 sm:mt-4">
         <Button
           onClick={() => {
             setQuery("");
           }}
-          darkTheme={dark}
-          isShown={query.trim() != ""}
+          isShown={query.trim() !== ""}
           key={"Clear_Btn"}
           style={"generic"}
           type="reset"
@@ -42,9 +43,7 @@ export default function Search({ dark }: { dark: boolean }) {
           Clear
         </Button>
         <Button
-          onClick={() => {}}
-          darkTheme={dark}
-          isShown={query.trim() != ""}
+          isShown={query.trim() !== ""}
           key={"Search_Btn"}
           style={"generic"}
           type="submit"

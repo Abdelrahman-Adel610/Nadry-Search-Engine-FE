@@ -682,3 +682,20 @@ export const relatedSearches = [
   "Neural Networks",
   "Natural Language Processing",
 ];
+export const filterOptions = [
+  { id: "relevance", label: "Relevance" },
+  { id: "date", label: "Date (newest)" },
+];
+export const noResultsSuggestions = [
+  "React",
+  "JavaScript",
+  "Web Development",
+  "Programming",
+];
+export const recentSearches = ["TypeScript", "React Hooks", "NextJS"];
+export const sponsoredResults = dummyResults.slice(0, 2);
+export const searchTips = [
+  { tip: 'Use quotes for exact phrases: "react components"' },
+  { tip: "Exclude terms with minus: javascript -jquery" },
+  { tip: "Site search: site:github.com react" },
+];
