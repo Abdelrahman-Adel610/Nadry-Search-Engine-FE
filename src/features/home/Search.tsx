@@ -7,11 +7,9 @@ import { useNavigate } from "react-router-dom";
 export default function Search() {
   const [query, setQuery] = useState("");
   const navigate = useNavigate();
-
   function submitHandler(e: FormEvent) {
     e.preventDefault();
     if (!query.trim()) return;
-
     const searchParams = new URLSearchParams();
     searchParams.set("query", query);
     navigate(`/search?${searchParams.toString()}`);

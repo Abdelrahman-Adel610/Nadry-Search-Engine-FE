@@ -1,18 +1,17 @@
 import { useLocation, useSearchParams } from "react-router-dom";
 import { useTheme } from "../../context/ThemeContext";
 import { getCardStyle, getPaginationButtonStyle } from "../../utils/styleUtils";
-import { calculateTotalPages } from "../../utils/paginationUtils";
 
 export default function PaginationConrols({
-  totalResults,
+  totalPages,
 }: {
-  totalResults: number;
+  totalPages: number;
 }) {
   const [searchParams, setSearchParams] = useSearchParams();
   const currentPage = parseInt(searchParams.get("page") || "1", 10);
   const location = useLocation();
   const { isDark } = useTheme();
-  const totalPages = calculateTotalPages(totalResults);
+
   return (
     <div>
       {totalPages > 1 && (

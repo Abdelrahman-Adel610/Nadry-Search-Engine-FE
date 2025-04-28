@@ -1,10 +1,11 @@
-import { useSearchParams, useLocation } from "react-router-dom";
 import {
-  dummyResults,
-  noResultsSuggestions,
-  sponsoredResults,
-} from "../../data/data";
-import { useEffect, useState } from "react";
+  useSearchParams,
+  useLocation,
+  useLoaderData,
+  useNavigation,
+} from "react-router-dom";
+import { noResultsSuggestions, sponsoredResults } from "../../data/data";
+import { useState } from "react";
 import QueryTags from "./QueryTags";
 import ResultItem from "./ResultItem";
 import RelatedSearches from "./RelatedSearches";
@@ -18,7 +19,6 @@ import FilterBar from "./FilterBar";
 import ResultsTabs from "./ResultsTabs";
 import NoResults from "./NoResults";
 import LoadingSkeleton from "./LoadingSkeleton";
-import { paginateResults } from "../../utils/paginationUtils";
 import PaginationConrols from "./PaginationConrols";
 
 export default function SearchPage() {
@@ -26,22 +26,22 @@ export default function SearchPage() {
   const location = useLocation();
 
   // Keep two separate states - one for display in the search box, one for actual searching
-  const [displayQuery, setDisplayQuery] = useState(
-    searchParams.get("query")?.toLowerCase() || ""
-  );
+
   const [searchQuery, setSearchQuery] = useState(
     searchParams.get("query")?.toLowerCase() || ""
   );
 
   const [activeTab, setActiveTab] = useState("all");
   const [sortOrder, setSortOrder] = useState("relevance");
-  const [isLoading, setIsLoading] = useState(true);
 
   const dark = location.hash === "#dark";
   const currentPage = parseInt(searchParams.get("page") || "1", 10);
 
-  // Apply filters and sorting
-  const filtered = dummyResults.slice(0); 
+  const { data, totalPages } = useLoaderData();
+  const isLoading = useNavigation().state === "loading";
+  console.log(data);
+
+  const filtered = Array.isArray(data) ? data : [];
 
   if (sortOrder === "date") {
     filtered.sort(() => Math.random() - 0.5);
@@ -63,30 +63,15 @@ export default function SearchPage() {
           return true;
         });
 
-  useEffect(() => {
-    setIsLoading(true);
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 800);
-    return () => clearTimeout(timer);
-  }, [searchQuery, activeTab, sortOrder, currentPage]);
-
   const resultCount = tabFiltered.length;
 
   // Get featured result (first result)
   const featuredResult = resultCount > 0 ? tabFiltered[0] : null;
 
-  // Remove featured result from regular results if it exists
-  const regularResults = featuredResult ? tabFiltered.slice(1) : tabFiltered;
-
-  // Pagination calculations
-  const paginatedResults = paginateResults(regularResults, currentPage);
 
   const performSearch = (query: string) => {
     if (!query.trim() || searchQuery === query) return;
-
     // Update states
-    setDisplayQuery(query);
     setSearchQuery(query);
     setActiveTab("all");
 
@@ -94,7 +79,6 @@ export default function SearchPage() {
     setSearchParams({ query: query, page: "1" });
 
     // Set loading state
-    setIsLoading(true);
   };
 
   // Handle tab change
@@ -110,12 +94,7 @@ export default function SearchPage() {
 
   return (
     <div className="flex flex-col min-h-screen overflow-x-hidden ">
-      <SearchPageHeader
-        isDarkMode={dark}
-        displayQuery={displayQuery}
-        setDisplayQuery={setDisplayQuery}
-        performSearch={performSearch}
-      />
+      <SearchPageHeader isDarkMode={dark} performSearch={performSearch} />
       <main className="container max-w-6xl mx-auto px-2 sm:px-4 py-3 sm:py-6 flex-grow mt-2">
         <div className="overflow-x-auto hide-scrollbar -mx-2 px-2">
           <ResultsTabs
@@ -151,15 +130,15 @@ export default function SearchPage() {
                   <FeaturedResult result={featuredResult} />
                 )}
                 {/* Regular Results */}
-                {paginatedResults.map((item) => (
-                  <ResultItem item={item} />
+                {filtered.map((item, idx) => (
+                  <ResultItem item={item} key={idx} />
                 ))}
                 {/* Sponsored Results */}
                 <SponsoredResults
                   sponsoredResults={sponsoredResults}
                   isDarkMode={dark}
                 />
-                <PaginationConrols totalResults={regularResults.length} />
+                <PaginationConrols totalPages={totalPages} />
               </div>
             )}
           </div>

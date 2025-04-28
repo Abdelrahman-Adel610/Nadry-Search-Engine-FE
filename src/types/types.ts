@@ -45,8 +45,6 @@ export type SponsoredResultsProps = {
 };
 export type SearchPageHeaderProps = {
   isDarkMode: boolean;
-  displayQuery: string;
-  setDisplayQuery: (query: string) => void;
   performSearch: (query: string) => void;
 };
 export type NoResultsProps = {
@@ -79,3 +77,19 @@ export type ThemeContextType = {
   toggleDarkMode: () => void;
   setThemeColor: (color: ThemeColor) => void;
 };
+export interface SearchResult {
+  id: string;
+  url: string;
+  title: string;
+  description: string;
+  snippet: string;
+  featured: boolean;
+}
+export interface SearchResponse {
+  query: string;
+  resultCount: number;
+  searchTime: number;
+  featuredResult: SearchResult | null;
+  results: SearchResult[];
+  suggestedQueries: string[];
+}

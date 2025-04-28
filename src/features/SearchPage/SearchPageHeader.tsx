@@ -2,13 +2,17 @@ import { getHeaderStyle, getPrimaryButtonStyle } from "../../utils/styleUtils";
 import Logo from "../../ui/Logo";
 import SearchBar from "../../ui/SearchBar";
 import { SearchPageHeaderProps } from "../../types/types";
+import { useState } from "react";
+import { useSearchParams } from "react-router-dom";
 
 export default function SearchPageHeader({
   isDarkMode,
-  displayQuery,
-  setDisplayQuery,
   performSearch,
 }: SearchPageHeaderProps) {
+  const [searchParams] = useSearchParams();
+  const [displayQuery, setDisplayQuery] = useState(
+    searchParams.get("query")?.toLowerCase() || ""
+  );
   return (
     <header className="sticky top-0 z-50 w-full py-2 sm:py-3 sm:px-0 px-10">
       <div
