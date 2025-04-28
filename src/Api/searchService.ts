@@ -1,4 +1,5 @@
 import { SearchResult } from "../types/types";
+import { MAX_NUMBER_OF_SUGGESTIONS } from "../utils/Consts";
 import apiClient from "./client";
 
 export const searchService = {
@@ -23,6 +24,31 @@ export const searchService = {
       throw error;
     }
   },
+  suggest: async (query: string) => {
+    try {
+      const response = await apiClient.get("/suggestions", {
+        params: {
+          query: query.trim(),
+          limit: MAX_NUMBER_OF_SUGGESTIONS,
+        },
+      });
+      console.log(response.data.data);
+      return response.data.data;
+    } catch (error) {
+      console.error("Search API error:", error);
+      throw error;
+    }
+  },
+  addTosugs: async (query: string) => {
+    try {
+      console.log(query + "SSSSSSSSSSSSSSSSSSSSS");
+      const response = await apiClient.post("/save-search", { query });
+      console.log(response.data.success);
+      return response.data.success;
+    } catch (error) {
+      console.error("Search API error:", error);
+      throw error;
+    }
+  },
 };
-
 export default searchService;

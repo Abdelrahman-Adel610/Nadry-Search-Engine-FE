@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Recommendations from "./Recommendations";
-import { suggestions } from "../data/data";
 import { useTheme } from "../context/ThemeContext";
 import SearchIcon from "./SearchIcon";
 import { getTextStyle } from "../utils/styleUtils";
+import { useQuery } from "@tanstack/react-query";
+import searchService from "../Api/searchService";
 
 export default function SerchBar({
   foncusOnMount,
@@ -17,12 +18,35 @@ export default function SerchBar({
   const [inputFocused, setInputFocused] = useState(foncusOnMount);
   const { isDark } = useTheme();
 
-  const filteredSuggestions =
-    query.trim().length > 0
-      ? suggestions
-          .filter((s) => s.toLowerCase().includes(query.toLowerCase()))
-          .slice(0, 6)
-      : [];
+  const [debouncedQuery, setDebouncedQuery] = useState("");
+  const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
+
+  // Set up debounced query to avoid excessive API calls
+  useEffect(() => {
+    if (debounceTimerRef.current) {
+      clearTimeout(debounceTimerRef.current);
+    }
+
+    debounceTimerRef.current = setTimeout(() => {
+      setDebouncedQuery(query);
+    }, 300);
+
+    return () => {
+      if (debounceTimerRef.current) {
+        clearTimeout(debounceTimerRef.current);
+      }
+    };
+  }, [query]);
+
+  const { data, isLoading } = useQuery({
+    queryKey: [debouncedQuery],
+    enabled: !!debouncedQuery && debouncedQuery.length > 0, // Only run query if there's input
+    queryFn: () => searchService.suggest(debouncedQuery),
+    staleTime: 60000, // Cache results for 1 minute
+    refetchOnWindowFocus: false,
+  });
+
+  const filteredSuggestions = data || [];
 
   return (
     <div className="relative w-full flex flex-col items-center">
@@ -105,7 +129,9 @@ export default function SerchBar({
       </div>
       <div className="relative w-full max-w-[36rem] z-30">
         <Recommendations
-          isVisible={inputFocused && filteredSuggestions.length > 0}
+          isVisible={
+            inputFocused && filteredSuggestions.length > 0 && !isLoading
+          }
           moveDownHandler={(s: string) => setQuery(s)}
           filteredSuggestions={filteredSuggestions}
         />

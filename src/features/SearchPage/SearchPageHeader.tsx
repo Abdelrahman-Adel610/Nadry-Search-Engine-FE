@@ -4,6 +4,7 @@ import SearchBar from "../../ui/SearchBar";
 import { SearchPageHeaderProps } from "../../types/types";
 import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import useAddSug from "../../Hooks/useAddSug";
 
 export default function SearchPageHeader({
   isDarkMode,
@@ -13,8 +14,10 @@ export default function SearchPageHeader({
   const [displayQuery, setDisplayQuery] = useState(
     searchParams.get("query")?.toLowerCase() || ""
   );
+  const { mutate: addSug } = useAddSug();
+
   return (
-    <header className="sticky top-0 z-50 w-full py-2 sm:py-3 sm:px-0 px-10">
+    <header className="sticky top-0 z-50 w-full py-2 sm:py-3 sm:px-0 px-4">
       <div
         className={`container max-w-6xl mx-auto px-1 sm:px-4 rounded-3xl md:py-2 md:my-2 md:shadow-sm sm:pb-0 pb-3 ${getHeaderStyle(
           isDarkMode
@@ -28,28 +31,32 @@ export default function SearchPageHeader({
               linkTo={"/nadry" + location.hash}
             />
           </div>
-          <div className="flex-grow max-w-2xl mx-auto sm:mx-0 w-full">
+          <div className="flex-grow max-w-3xl mx-auto sm:mx-0 w-full">
             <form
               onSubmit={(e) => {
                 e.preventDefault();
                 performSearch(displayQuery);
+                addSug(displayQuery);
               }}
+              className="flex items-center gap-2"
             >
-              <SearchBar
-                foncusOnMount={false}
-                query={displayQuery}
-                setQuery={setDisplayQuery}
-              />
+              <div className="flex-grow">
+                <SearchBar
+                  foncusOnMount={false}
+                  query={displayQuery}
+                  setQuery={setDisplayQuery}
+                />
+              </div>
+              <button
+                type="submit"
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${getPrimaryButtonStyle(
+                  isDarkMode
+                )}`}
+              >
+                Search
+              </button>
             </form>
           </div>
-          <button
-            onClick={() => performSearch(displayQuery)}
-            className={`hidden md:block ml-4 px-4 py-2 rounded-full text-sm font-medium transition-all cursor-pointer self-center mx-auto sm:mx-0 sm:self-auto ${getPrimaryButtonStyle(
-              isDarkMode
-            )}`}
-          >
-            Search
-          </button>
         </div>
       </div>
     </header>

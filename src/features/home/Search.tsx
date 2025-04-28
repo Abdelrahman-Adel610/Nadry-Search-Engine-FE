@@ -3,13 +3,17 @@ import Button from "../../ui/Button";
 import SearchBar from "../../ui/SearchBar";
 import { FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import useAddSug from "../../Hooks/useAddSug";
 
 export default function Search() {
   const [query, setQuery] = useState("");
   const navigate = useNavigate();
+  const { mutate: addSug } = useAddSug();
+
   function submitHandler(e: FormEvent) {
     e.preventDefault();
     if (!query.trim()) return;
+    addSug(query);
     const searchParams = new URLSearchParams();
     searchParams.set("query", query);
     navigate(`/search?${searchParams.toString()}`);
