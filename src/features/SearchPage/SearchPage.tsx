@@ -37,9 +37,9 @@ export default function SearchPage() {
   const dark = location.hash === "#dark";
   const currentPage = parseInt(searchParams.get("page") || "1", 10);
 
-  const { data, totalPages } = useLoaderData();
+  const { data, totalPages, tokens, searchTimeSec } = useLoaderData();
   const isLoading = useNavigation().state === "loading";
-  console.log(data);
+  console.log(data, tokens);
 
   const filtered = Array.isArray(data) ? data : [];
 
@@ -67,7 +67,6 @@ export default function SearchPage() {
 
   // Get featured result (first result)
   const featuredResult = resultCount > 0 ? tabFiltered[0] : null;
-
 
   const performSearch = (query: string) => {
     if (!query.trim() || searchQuery === query) return;
@@ -107,7 +106,11 @@ export default function SearchPage() {
         <div className="flex flex-col md:flex-row gap-4 sm:gap-8">
           <div className="w-full md:w-8/12">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4">
-              <QueryTags resultCount={resultCount} />
+              <QueryTags
+                resultCount={resultCount}
+                tags={tokens}
+                searchTime={searchTimeSec}
+              />
               <FilterBar
                 sortOrder={sortOrder}
                 onSortChange={handleSortChange}

@@ -17,6 +17,7 @@ export const searchService = {
       const response = await apiClient.get("/search", {
         params: { query, page, tab, sort, limit },
       });
+      console.log(response);
 
       return response.data;
     } catch (error) {
