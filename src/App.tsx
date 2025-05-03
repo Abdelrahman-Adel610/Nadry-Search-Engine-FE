@@ -63,11 +63,13 @@ const router = createBrowserRouter([
             totalPages,
             tokens,
             searchTimeSec,
+            totalResults,
           }: {
             data: SearchResult;
             totalPages: number;
             tokens: string[];
             searchTimeSec: number;
+            totalResults: number;
           } = await queryClient.fetchQuery({
             queryKey: ["search", query, page, tab, sort],
             queryFn: () =>
@@ -75,7 +77,7 @@ const router = createBrowserRouter([
           });
           console.log(data, totalPages);
 
-          return { data, totalPages, tokens, searchTimeSec };
+          return { data, totalPages, tokens, searchTimeSec, totalResults };
         },
         errorElement: <SearchError />,
       },

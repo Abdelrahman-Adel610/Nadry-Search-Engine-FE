@@ -37,7 +37,8 @@ export default function SearchPage() {
   const dark = location.hash === "#dark";
   const currentPage = parseInt(searchParams.get("page") || "1", 10);
 
-  const { data, totalPages, tokens, searchTimeSec } = useLoaderData();
+  const { data, totalPages, tokens, searchTimeSec, totalResults } =
+    useLoaderData();
   const isLoading = useNavigation().state === "loading";
   console.log(data, tokens);
 
@@ -107,7 +108,7 @@ export default function SearchPage() {
           <div className="w-full md:w-8/12">
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4">
               <QueryTags
-                resultCount={resultCount}
+                resultCount={totalResults}
                 tags={tokens}
                 searchTime={searchTimeSec}
               />
