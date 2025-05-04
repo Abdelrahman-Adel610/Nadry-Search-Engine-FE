@@ -2,19 +2,25 @@ import { getHeaderStyle, getPrimaryButtonStyle } from "../../utils/styleUtils";
 import Logo from "../../ui/Logo";
 import SearchBar from "../../ui/SearchBar";
 import { SearchPageHeaderProps } from "../../types/types";
-import { useState } from "react";
+import { useState, useEffect } from "react"; // Import useEffect
 import { useSearchParams } from "react-router-dom";
 import useAddSug from "../../Hooks/useAddSug";
+import { addRecentSearch } from "../../utils/localStorageUtils";
+// Import the utility
 
 export default function SearchPageHeader({
   isDarkMode,
   performSearch,
 }: SearchPageHeaderProps) {
   const [searchParams] = useSearchParams();
-  const [displayQuery, setDisplayQuery] = useState(
-    searchParams.get("query")?.toLowerCase() || ""
-  );
+  const currentQuery = searchParams.get("query")?.toLowerCase() || "";
+  const [displayQuery, setDisplayQuery] = useState(currentQuery);
   const { mutate: addSug } = useAddSug();
+
+  // Update displayQuery if the URL search param changes externally
+  useEffect(() => {
+    setDisplayQuery(currentQuery);
+  }, [currentQuery]);
 
   return (
     <header className="sticky top-0 z-50 w-full py-2 sm:py-3 sm:px-0 px-4">
@@ -35,8 +41,11 @@ export default function SearchPageHeader({
             <form
               onSubmit={(e) => {
                 e.preventDefault();
-                performSearch(displayQuery);
-                addSug(displayQuery);
+                const trimmedQuery = displayQuery.trim();
+                if (!trimmedQuery) return; // Prevent empty search
+                addRecentSearch(trimmedQuery); // Add to recent searches
+                performSearch(trimmedQuery); // Use the trimmed query
+                addSug(trimmedQuery);
               }}
               className="flex items-center gap-2"
             >

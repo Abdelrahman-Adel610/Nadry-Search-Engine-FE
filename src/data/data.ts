@@ -692,7 +692,6 @@ export const noResultsSuggestions = [
   "Web Development",
   "Programming",
 ];
-export const recentSearches = ["TypeScript", "React Hooks", "NextJS"];
 export const sponsoredResults = dummyResults.slice(0, 2);
 export const searchTips = [
   { tip: 'Use quotes for exact phrases: "react components"' },

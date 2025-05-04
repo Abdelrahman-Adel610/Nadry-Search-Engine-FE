@@ -4,6 +4,8 @@ import SearchBar from "../../ui/SearchBar";
 import { FormEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useAddSug from "../../Hooks/useAddSug";
+import { addRecentSearch } from "../../utils/localStorageUtils";
+
 
 export default function Search() {
   const [query, setQuery] = useState("");
@@ -12,11 +14,15 @@ export default function Search() {
 
   function submitHandler(e: FormEvent) {
     e.preventDefault();
-    if (!query.trim()) return;
-    addSug(query);
+    const trimmedQuery = query.trim();
+    if (!trimmedQuery) return;
+    addRecentSearch(trimmedQuery); // Add to recent searches before navigating
+    addSug(trimmedQuery);
     const searchParams = new URLSearchParams();
-    searchParams.set("query", query);
-    navigate(`/search?${searchParams.toString()}`);
+    searchParams.set("query", trimmedQuery);
+    // Preserve existing hash (theme) if present
+    const currentHash = window.location.hash;
+    navigate(`/search?${searchParams.toString()}${currentHash}`);
   }
 
   return (

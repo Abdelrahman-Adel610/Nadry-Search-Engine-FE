@@ -9,9 +9,6 @@ import SearchPage from "./features/SearchPage/SearchPage";
 import { ThemeProvider } from "./context/ThemeContext";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-import searchService from "./Api/searchService";
-import { RESULTS_PER_PAGE } from "./utils/Consts";
-import { SearchResult } from "./types/types";
 import SearchError from "./features/SearchError";
 
 const queryClient = new QueryClient({
@@ -51,34 +48,6 @@ const router = createBrowserRouter([
       {
         path: "search",
         element: <SearchPage />,
-        loader: async ({ request }) => {
-          const url = new URL(request.url);
-          const query = url.searchParams.get("query") || "";
-          const page = parseInt(url.searchParams.get("page") || "1");
-          const tab = url.searchParams.get("tab") || "all";
-          const sort = url.searchParams.get("sort") || "relevance";
-          const queryClient = new QueryClient();
-          const {
-            data,
-            totalPages,
-            tokens,
-            searchTimeSec,
-            totalResults,
-          }: {
-            data: SearchResult;
-            totalPages: number;
-            tokens: string[];
-            searchTimeSec: number;
-            totalResults: number;
-          } = await queryClient.fetchQuery({
-            queryKey: ["search", query, page, tab, sort],
-            queryFn: () =>
-              searchService.search(query, page, tab, sort, RESULTS_PER_PAGE),
-          });
-          console.log(data, totalPages);
-
-          return { data, totalPages, tokens, searchTimeSec, totalResults };
-        },
         errorElement: <SearchError />,
       },
       {

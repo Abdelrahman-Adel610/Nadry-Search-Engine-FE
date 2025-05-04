@@ -87,9 +87,9 @@ export interface SearchResult {
 }
 export interface SearchResponse {
   query: string;
-  resultCount: number;
-  searchTime: number;
-  featuredResult: SearchResult | null;
-  results: SearchResult[];
-  suggestedQueries: string[];
+  totalResults: number;
+  searchTimeSec: number;
+  data: SearchResult[];
+  tokens: string[];
+  totalPages: number;
 }
